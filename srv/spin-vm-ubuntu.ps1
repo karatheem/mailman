@@ -54,7 +54,7 @@ Start-Sleep -Seconds 1
 Write-Output "${timestamp}; {${scenario}; RG: ${RG}; Location: ${location}; ResType: VM; ResName: ${VM}; PublicIP: ${vmip}; Admin: azrez}" >> C:\azrez\azrez.log
 
 # Run the docker install script commands inside the VM
-az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "sudo wget -O - https://raw.githubusercontent.com/marianleica/azrez/refs/heads/progress/pwshjobs/azvm-ubuntu2204-docker-runcommand.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
+az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "sudo wget -O - https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/srv/spin-vm-guest.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
 
 # Look for user input to perform ssh connection right now
 $userinput = Read-Host -Prompt "Do you want to connect to ${VM} via ssh now? (y/n)"
