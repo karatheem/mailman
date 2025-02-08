@@ -4,9 +4,9 @@
 
 ### How does it work?
 
-<p>All you have to worry about is your `index.html` file with your website.</p>
+All you have to worry about is your `index.html` file with your website.
 
-<p>In the `mailman` app you submit your `index.html` file, and we take care of the rest.</p>
+In the `mailman` app you submit your `index.html` file, and we take care of the rest.
 
 <p>In a couple of minutes, the backend will be ready and you will receive a public IP address from which your website will be accessible.</p>
 
