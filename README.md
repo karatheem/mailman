@@ -11,3 +11,9 @@ In the `mailman` app you submit your `index.html` file, and we take care of the 
 <p>In a couple of minutes, the backend will be ready and you will receive a public IP address from which your website will be accessible.</p>
 
 <p>You app will be live at the designated IP address for a predefined default period of 48hrs.</p>
+
+### Service-Level Agreement
+
+This application and deployment are prpvided free of charge for both client and server sides.
+
+At the same time, support is provided as-is.
