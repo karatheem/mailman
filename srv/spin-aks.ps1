@@ -17,15 +17,15 @@ Write-Output ""
 
 # Create virtual network and subnets
 Write-Output "The BYO VNET: "
-az network vnet create --resource-group $RG --name aksVnet --address-prefixes 10.0.0.0/8 --subnet-name aks_subnet --subnet-prefix 10.240.0.0/16
+az network vnet create --resource-group $RG --name mailnet --address-prefixes 10.0.0.0/8 --subnet-name aks_subnet --subnet-prefix 10.240.0.0/16
 
 Write-Output ""
 Write-Output "The BYO VNET subnet: "
 
-az network vnet subnet create --resource-group $RG --vnet-name aksVnet --name vnode_subnet --address-prefixes 10.241.0.0/16
+az network vnet subnet create --resource-group $RG --vnet-name mailnet --name vnode_subnet --address-prefixes 10.241.0.0/16
 
 # Create AKS cluster
-$subnetId=$(az network vnet subnet show --resource-group $RG --vnet-name aksVnet --name aks_subnet --query id -o tsv)
+$subnetId=$(az network vnet subnet show --resource-group $RG --vnet-name mailnet --name aks_subnet --query id -o tsv)
 
 Write-Output ""
 Start-Sleep 2
