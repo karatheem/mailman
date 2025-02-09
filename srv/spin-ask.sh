@@ -1,5 +1,4 @@
 # code credits: https://github.com/marianleica/azrez/tree/public
-# this code should be converted into bash
 
 # Setting variables
 timestamp=$(date '+%Y/%m/%d-%H:%M UTC%z')
