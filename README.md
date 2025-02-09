@@ -8,5 +8,5 @@ All you have to worry about is your `index.html` file with your website. In the 
 
 ### Service-Level Agreement
 
-This application and deployment are prpvided free of charge for both client and server sides.
-At the same time, support is provided as-is.
+This application and deployment are provided free of charge for both client and server sides.
+At the same time, support is as-is via GitHub issues.
