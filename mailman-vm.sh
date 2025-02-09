@@ -26,6 +26,10 @@ sleep 2
 
 # Install NGINX
 sudo apt-get install -y nginx
+
+# Install persistency for iptables and open port 80
 sudo apt install iptables-persistent
 sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# Save iptables config
 sudo iptables-save > /etc/iptables/rules.v4
