@@ -1,6 +1,6 @@
 # code credits: https://github.com/marianleica/azrez
 # this script should be configured from powershell to bash
-# need to change values to match current project like resource group or 
+# need to change values to match current project like resource group or vm name
 
 Write-Output "Creating an Azure VM running Ubuntu2204"
 Start-Sleep -Seconds 1
@@ -10,13 +10,13 @@ $timestamp = $(Get-Date -Format "yyyy/MM/dd-HH:mm UTCK")
 $scenario="azvm-ubuntu2204ssh"
 $suffix=$(Get-Random -Minimum 10000 -Maximum 99999)
 #suffix=$((10000 + RANDOM % 99999))
-$RG="azrez"
+$RG="mailman"
 $location="uksouth"
-$VM="azvm-ubuntu-${suffix}"
+$VM="mailman-ubuntu-${suffix}"
 $image="Ubuntu2204"
 
 # Generating a random string to use as password
-$userName = "azrez"
+$userName = "postman"
 #$randompass = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 30 | ForEach-Object {[char]$_})
 #Read more: https://www.sharepointdiary.com/2020/04/powershell-generate-random-password.html#ixzz8XiwccFos
 #$Password = ConvertTo-SecureString $randompass -AsPlainText -Force
