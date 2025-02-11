@@ -31,18 +31,3 @@ sleep 2
 
 # Install Node.js to host the web content
 sudo apt-get install -y nodejs npm
-
-# Install persistency for iptables and open port 80
-sudo apt install -y iptables-persistent
-sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-
-# Save iptables config
-sudo iptables-save > /etc/iptables/rules.v4
-
-# Clone repo 
-git clone https://github.com/karatheem/mailman
-
-# Experimenting from here a bit
-
-npm install $HOME/mailman/client/
-node $HOME/mailman/client/server.js &
