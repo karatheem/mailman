@@ -35,7 +35,7 @@ echo "The virtual machine $VM:"
 # Create Ubuntu VM
 # New-AzVm -ResourceGroupName $RG -Name $vmName -Location $location -Image $image -VirtualNetworkName "myVnet-${suffix}" -SubnetName "vmsubnet" -SecurityGroupName "vmNSG" -PublicIpAddressName $publicIp -OpenPorts 80,22 -GenerateSshKey
 az vm create -n $VM -g $RG --image $image --generate-ssh-keys --admin-username $userName --size Standard_D2s_v3 --nsg-rule ssh --public-ip-sku Standard
-az network nsg rule create -g $RG --nsg-name $NSG -n Allow8080 --priority 4096 --source-port-ranges 80 --destination-address-prefixes '*' --destination-port-ranges 80 8080 --access Allow --protocol Tcp --description "Allow from 80 and 8080."
+az network nsg rule create -g $RG --nsg-name $NSG -n Allow8080 --priority 4096 --source-port-ranges 8080 --destination-port-ranges 8080 --access Allow --protocol Tcp --description "Allow from 80 and 8080."
 
 sleep 2
 # This is the public IP address
