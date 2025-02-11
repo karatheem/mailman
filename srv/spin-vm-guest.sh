@@ -34,7 +34,7 @@ sleep 2
 sudo apt-get install -y nodejs npm
 
 # Install persistency for iptables and open port 80
-sudo apt install iptables-persistent
+sudo apt install -y iptables-persistent
 sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 
 # Save iptables config
