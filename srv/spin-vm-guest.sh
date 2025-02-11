@@ -27,7 +27,7 @@ sudo docker run hello-world
 sleep 2
 
 # Install NGINX to host the web content
-sudo apt-get install -y nginx
+sudo apt-get install -y nodejs npm
 
 # Install persistency for iptables and open port 80
 sudo apt install iptables-persistent
