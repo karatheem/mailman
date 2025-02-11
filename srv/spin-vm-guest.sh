@@ -42,3 +42,8 @@ sudo iptables-save > /etc/iptables/rules.v4
 
 # Clone repo 
 git clone https://github.com/karatheem/mailman
+
+# Experimenting from here a bit
+
+npm install $HOME/mailman/client/
+node $HOME/mailman/client/server.js &
