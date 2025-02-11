@@ -93,7 +93,8 @@ echo ""
 
 # Create Ubuntu VM
 echo "Creating virtual machine $VM in resource group $RG in location $location"
-az vm create -n $VM -g $RG --image $image --generate-ssh-keys --admin-username $userName --size Standard_D2s_v3 --nsg-rule ssh --public-ip-sku Standard
+az vm create -n $VM -g $RG --image $image --generate-ssh-keys --admin-username $userName --size Standard_D2s_v3 --nsg-rule ssh --public-ip-sku Standard --subnet $subnetIdvm
+
 az network nsg rule create -g $RG --nsg-name $NSG -n Allow8080 --priority 4096 --source-port-ranges 8080 --destination-port-ranges 8080 --access Allow --protocol Tcp --description "Allow 8080."
 
 sleep 2
