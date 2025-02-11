@@ -2,9 +2,15 @@
 
 **Mailman** is a web application to which you can POST your code and receive a public IP address where it is already running.
 
-### How does it work?
+### Run as client
 
 All you have to worry about is your `index.html` file with your website. In the `mailman` app you submit your `index.html` file, and we take care of the rest. In a couple of minutes, the backend will be ready and you will receive a public IP address from which your website will be accessible. You app will be live at the designated IP address for a predefined default period of 48hrs.
+
+### Run as server
+
+To run the `mailman` as a server, grab the repository package. You will need an active Azure subscription. By running the `srv` scripts you will create an Azure VNET in which you should have an Azure VM with Ubuntu VM, an Azure Container Registry (ACR), and Azure Kubernetes Cluster (AKS).
+
+The Ubuntu VM will receive all the necessary configuration via the `run-command` script directly to the guest OS. The ACR will store the pushed container images and make them available for the AKS cluster which in turn will run the workloads publicly.
 
 ### Service-Level Agreement
 
