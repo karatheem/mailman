@@ -16,7 +16,7 @@ The Ubuntu VM will receive all the necessary configuration via the `run-command`
 
 The high-level diagram below shows the infrastructure required of the application:
 
-<img width="1109" alt="image" src="https://github.com/user-attachments/assets/04d221fc-25fa-4379-adf6-7c738866a8ad" />
+<img width="1128" alt="image" src="https://github.com/user-attachments/assets/efd0ec12-4e32-480c-8f3c-4119d6b48fc6" />
 
 ### Service-Level Agreement
 
