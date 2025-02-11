@@ -31,3 +31,6 @@ sleep 2
 
 # Install Node.js to host the web content
 sudo apt-get install -y nodejs npm
+
+# XP
+git clone https://github.com/karatheem/mailman/
