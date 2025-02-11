@@ -11,10 +11,10 @@ acr="azacr-public-$suffix"
 acrpath=$acr.azurecr.io
 
 # Create the ACR resource
-az acr create -n $acr -g $rg --sku Premium
+az acr create -n $acr -g $rg --sku Standard
 
-# Login to ACR
-az acr login --name $acr
+# Login to ACR in azcli shell
+# az acr login --name $acr
 
-# Add a basic image to the repository
-az acr import -n $acr --source docker.io/library/hello-world:latest -t $acrpath:test1
+# Add a basic image to the repository for testing
+# az acr import -n $acr --source docker.io/library/hello-world:latest -t $acrpath:test1
