@@ -1,8 +1,11 @@
 // Declare all dependencies
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs').promises;
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
 
 // Create express app
 const app = express();
@@ -23,17 +26,69 @@ const upload = multer({ storage: storage });
 // Serve static content
 app.use(express.static('public'));
 
+
+
+// Function to create Dockerfile
+
+async function createDockerfile(uploadDir) {
+    const dockerfileContent = `
+    FROM nginx:alpine
+    COPY index.html /usr/share/nginx/html
+    EXPOSE 80
+`;
+    await fs.writeFile(path.join(uploadDir, 'Dockerfile'), dockerfileContent);
+}
+
+// Function to build Docker image
+
+async function buildDockerImage(uploadDir, imageName) {
+    try {
+        console.log("Creating docker image...");
+
+        // Execute docker build
+        await execPromise('docker build -t mailman:latest uploads/'); // Absolute path for now to get it working 
+        console.log("Docker image created successfully!");
+        return true;
+    } catch (error) {
+        console.error("Error building Docker image");
+        return false;
+    }
+}
+
 // File upload route
-app.post('/upload', upload.single('htmlFile'), (req, res) => {
+app.post('/upload', upload.single('htmlFile'), async (req, res) => {
     if (!req.file) {
         return res.status(400).send('Please select and upload a file.');
     }
-    res.send("Upload succesful!");
-    });
+    try {
+        const uploadDir = "uploads";
+        const imageName = "mailman:latest" // Again, this needs to be changed later to make it unique
+
+        await createDockerfile(uploadDir);
+
+        const buildSuccess = await buildDockerImage(uploadDir, imageName);
+
+        if (buildSuccess) {
+            res.json({
+                message: "Successfully uploaded file and built Docker image"
+            });
+        } else {
+            res.status(500).json({
+                error: "Failed to create Docker image"
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            error: "Server error detected"
+        });
+    }
+});
+
 
 // Server initialization
 
 const PORT = 8080;
 app.listen(PORT, () => {
-    console.log('Server successfully started on port ${PORT}'); // Not sure why this is not working. Port printing isn't catching the variable. 
+    console.log('Server successfully started on port ${PORT}');
 });
