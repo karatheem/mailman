@@ -18,6 +18,14 @@ The high-level diagram below shows the infrastructure required of the applicatio
 
 <img width="1128" alt="image" src="https://github.com/user-attachments/assets/efd0ec12-4e32-480c-8f3c-4119d6b48fc6" />
 
+Proof of concept:
+- The client user acccess the web application running in the Ubuntu 2204 VM being prompted to a web session in which they can upload their web script file.
+- The server VM takes care of building a container image based on the provided web file via Dockerfile.
+- The resulting container image is then being pushed to Azure Container Registry (ACR).
+- The VM composes the application deployment and LoadBalancer service *.yaml files using the container image path available in the ACR.
+- Next,the VM applies the application *.yaml files to the Azure Kubernetes Services (AKS) cluster, which in turn runs the application and makes it publicly available.
+- Lastly, the VM interogates the AKS cluster for the LoadBalancer service external IP address and prints it on the client-facing application before ending the session.
+
 ### Service-Level Agreement
 
 This application and deployment are provided free of charge for both client and server sides.
