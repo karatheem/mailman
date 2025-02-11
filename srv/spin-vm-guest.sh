@@ -21,9 +21,13 @@ echo "Now installing the docker packages"
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin --yes
 sleep 2
 
+# Add user to docker group
+sudo usermod -aG docker $USER
+exec bash
+
 # Run the test hello world
-echo "Let's test it with a quick hello-wolrd container"
-sudo docker run hello-world
+echo "Let's test it with a quick hello-world container"
+docker run hello-world
 sleep 2
 
 # Install NGINX to host the web content
@@ -35,3 +39,6 @@ sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 
 # Save iptables config
 sudo iptables-save > /etc/iptables/rules.v4
+
+# Clone repo 
+git clone https://github.com/karatheem/mailman
