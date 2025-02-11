@@ -23,14 +23,13 @@ sleep 2
 
 # Add user to docker group
 sudo usermod -aG docker $USER
-exec bash
 
 # Run the test hello world
 echo "Let's test it with a quick hello-world container"
-docker run hello-world
+sudo docker run hello-world
 sleep 2
 
-# Install NGINX to host the web content
+# Install Node.js to host the web content
 sudo apt-get install -y nodejs npm
 
 # Install persistency for iptables and open port 80
