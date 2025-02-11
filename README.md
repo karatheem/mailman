@@ -12,6 +12,12 @@ To run the `mailman` as a server, grab the repository package. You will need an 
 
 The Ubuntu VM will receive all the necessary configuration via the `run-command` script directly to the guest OS. The ACR will store the pushed container images and make them available for the AKS cluster which in turn will run the workloads publicly.
 
+### Application environment
+
+The high-level diagram below shows the infrastructure required of the application:
+
+<img width="1013" alt="image" src="https://github.com/user-attachments/assets/3de00f02-7261-4969-a654-b7c3bc661b73" />
+
 ### Service-Level Agreement
 
 This application and deployment are provided free of charge for both client and server sides.
