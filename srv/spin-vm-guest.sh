@@ -33,4 +33,4 @@ sleep 2
 sudo apt-get install -y nodejs npm
 
 # XP
-git clone https://github.com/karatheem/mailman/
+git clone https://github.com/karatheem/mailman/ $HOME/
