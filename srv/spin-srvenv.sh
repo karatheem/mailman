@@ -31,7 +31,7 @@ sleep 2
 
 echo "The AKS cluster: "
 az aks create --resource-group $RG --name $AKS --node-count 1 --network-plugin azure --vnet-subnet-id $subnetId --enable-aad --generate-ssh-keys
-sleep -Seconds 5
+sleep 5
 
 echo ""
 sleep 1
@@ -95,6 +95,7 @@ echo ""
 echo "Creating virtual machine $VM in resource group $RG in location $location"
 az vm create -n $VM -g $RG --image $image --generate-ssh-keys --admin-username $userName --size Standard_D2s_v3 --nsg-rule ssh --public-ip-sku Standard --subnet $subnetIdvm
 
+# Add NSG rule to allow inbound and outbound on designated port
 az network nsg rule create -g $RG --nsg-name $NSG -n Allow8080 --priority 4096 --source-port-ranges 8080 --destination-port-ranges 8080 --access Allow --protocol Tcp --description "Allow 8080."
 
 sleep 2
