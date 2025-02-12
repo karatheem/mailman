@@ -36,4 +36,5 @@ sudo apt-get install -y nodejs npm
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 # XP
-git clone https://github.com/karatheem/mailman/ $HOME/
+HOME_DIR="/home/$USER"
+git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
