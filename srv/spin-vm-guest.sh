@@ -35,6 +35,17 @@ sudo apt-get install -y nodejs npm
 # Install Azure-CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+# Cloning mailman repo
+HOME_DIR="/home/$USER"
+git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
+npm install $HOME_DIR/mailman/client/
+
+# Moving Node.js service file to appropriate dir
+sudo mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
+
+# Enabling service
+sudo systemctl enable --now mailman.service
+
 ### Installing kubectl 
 # Getting the public signing key to match the AKS version
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -47,14 +58,3 @@ sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
 # Run install commands
 sudo apt-get update
 sudo apt-get install -y kubectl="1.30.9-1.1"
-
-# Cloning mailman repo
-HOME_DIR="/home/$USER"
-git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
-npm install $HOME_DIR/mailman/client/
-
-# Moving Node.js service file to appropriate dir
-sudo mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
-
-# Enabling service
-sudo systemctl enable --now mailman.service
