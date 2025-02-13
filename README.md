@@ -12,7 +12,7 @@ To run the `mailman` as a server, grab the repository package. You will need an 
 
 The Ubuntu VM will receive all the necessary configuration via the `run-command` script directly to the guest OS. The ACR will store the pushed container images and make them available for the AKS cluster which in turn will run the workloads publicly.
 
-The server deployment is fully provisioned by running `/srv/spin-srv.sh`.
+The server deployment is fully provisioned by running `/srv/spin-srvenv.sh`.
 
 ### Application environment
 
