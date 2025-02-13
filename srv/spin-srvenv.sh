@@ -55,7 +55,7 @@ scenario="azacr-public"
 suffix=$((10000 + RANDOM % 99999))
 rg="mailman"
 location="uksouth"
-acr="azacr-public-$suffix"
+acr="publicacr${suffix}"
 acrpath=$acr.azurecr.io
 
 # Create the ACR resource
