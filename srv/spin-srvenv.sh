@@ -1,5 +1,6 @@
-#########A################################################################################################## -> VNET
+# Create the complete mailman server environment deployment script
 
+#########A################################################################################################## -> VNET
 # Creating a common VNET network environment for Azure VM and AKS
 
 # Setting variables
@@ -23,7 +24,7 @@ az network vnet subnet create --resource-group $RG --vnet-name mailnet --name vm
 
 # save subnets as ids
 subnetId=$(az network vnet subnet show --resource-group $RG --vnet-name mailnet --name aks_subnet --query id -o tsv)
-subnetIdvm=$(az network vnet subnet show --resource-group $RG --vnet-name mailnet --name vm_subnet --query id -o tsv)# Create the complete mailman server environment deployment script
+subnetIdvm=$(az network vnet subnet show --resource-group $RG --vnet-name mailnet --name vm_subnet --query id -o tsv)
 echo ""
 sleep 2
 
