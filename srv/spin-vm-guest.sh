@@ -2,7 +2,7 @@
 
 # Add Docker's official GPG key:
 sudo apt-get update 
-sudo apt-get install ca-certificates curl
+sudo apt-get install ca-certificates curl apt-transport-https gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -35,6 +35,19 @@ sudo apt-get install -y nodejs npm
 # Install Azure-CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-# XP
+### Installing kubectl 
+# Getting the public signing key to match the AKS version
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+# Adding apt repo
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
+
+# Run install commands
+sudo apt-get update
+sudo apt-get install -y kubectl="1.30.9-1.1"
+
+# Cloning mailman repo
 HOME_DIR="/home/$USER"
 git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
