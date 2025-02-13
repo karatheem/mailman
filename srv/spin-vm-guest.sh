@@ -54,7 +54,7 @@ git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
 npm install $HOME_DIR/mailman/client/
 
 # Moving Node.js service file to appropriate dir
-mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
+sudo mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
 
 # Enabling service
 sudo systemctl enable --now mailman.service
