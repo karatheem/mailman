@@ -53,22 +53,8 @@ HOME_DIR="/home/$USER"
 git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
 npm install $HOME_DIR/mailman/client/
 
-# Creating Node.js service
-sudo tee /etc/systemd/system/mailman.service << EOF
-[Unit]
-Description=Node.js mailman service
-After=network.target
-
-[Service]
-Type=simple
-User=postman
-WorkingDirectory=/home/$USER/mailman/client/
-ExecStart=/usr/bin/node server.js
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-EOF
+# Moving Node.js service file to appropriate dir
+mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
 
 # Enabling service
 sudo systemctl enable --now mailman.service
