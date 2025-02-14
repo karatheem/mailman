@@ -40,7 +40,7 @@ HOME_DIR="/home/$USER"
 git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
 
 #Commenting everything out from here on out since the repo folder doesn't show up anymore
-npm install home/postman/mailman/client/
+npm install /home/postman/mailman/client/
 
 # Moving Node.js service file to appropriate dir
 sudo mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
