@@ -35,15 +35,20 @@ sudo apt-get install -y nodejs npm
 # Install Azure-CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-# Cloning mailman repo
+# Downloading app files 
 HOME_DIR="/home/$USER"
-git clone https://github.com/karatheem/mailman/ $HOME_DIR/mailman
+
+mkdir -p $HOME_DIR/mailman/public
+mkdir -p $HOME_DIR/mailman/uploads
+curl -o $HOME_DIR/mailman/package.json https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/package.json
+curl -o $HOME_DIR/mailman/server.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/server.js
+curl -o $HOME_DIR/public/index.html https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/index.html
+curl -o $HOME_DIR/public/script.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/script.js
+sudo curl -o /etc/systemd/system/mailman.service https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/mailman.service
 
 #Commenting everything out from here on out since the repo folder doesn't show up anymore
-npm install /home/postman/mailman/client/
-
-# Moving Node.js service file to appropriate dir
-sudo mv $HOME_DIR/mailman/client/mailman.service /etc/systemd/system/mailman.service
+cd "$HOME_DIR/mailman/"
+npm install 
 
 # Enabling service
 sudo systemctl enable --now mailman.service
