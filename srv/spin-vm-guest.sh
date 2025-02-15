@@ -42,8 +42,8 @@ mkdir -p $HOME_DIR/mailman/public
 mkdir -p $HOME_DIR/mailman/uploads
 curl -o $HOME_DIR/mailman/package.json https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/package.json
 curl -o $HOME_DIR/mailman/server.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/server.js
-curl -o $HOME_DIR/public/index.html https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/index.html
-curl -o $HOME_DIR/public/script.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/script.js
+curl -o $HOME_DIR/mailman/public/index.html https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/index.html
+curl -o $HOME_DIR/mailman/public/script.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/script.js
 sudo curl -o /etc/systemd/system/mailman.service https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/mailman.service
 
 #Commenting everything out from here on out since the repo folder doesn't show up anymore
