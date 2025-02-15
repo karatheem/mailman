@@ -5,8 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=postman
-WorkingDirectory=/home/postman/mailman/client/
-ExecStart=/usr/bin/node server.js
+ExecStart=/usr/bin/node /home/postman/mailman/server.js
 Restart=on-failure
 
 [Install]
