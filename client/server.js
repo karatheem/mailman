@@ -197,7 +197,7 @@ async function deployToKubernetes(imageName) {
             };
         }
     }
-}
+
 // File upload route
 app.post('/upload', upload.single('htmlFile'), async (req, res) => {
     if (!req.file) {
