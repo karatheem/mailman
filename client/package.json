@@ -1,7 +1,8 @@
 {
     "_comment": "Adding dependencies",
     "name": "mailman",
-    "version": "0.2",
+    "version": "0.5.0",
+    "type": "module"
     "dependencies": {
       "express": "^4.21.2",
       "multer": "^1.4.5-lts.1",
