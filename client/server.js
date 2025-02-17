@@ -7,6 +7,10 @@ const { exec } = require('child_process');
 const util = require('util');
 const execPromise = util.promisify(exec);
 
+// ACR login server
+const ACR_LOGIN = process.env.ACR_LOGIN || 'publicacr38330'; //Using static ACR name for now
+const ACR_LOGIN_SERVER = `${ACR_LOGIN}.azurecr.io`;
+
 // Create express app
 const app = express();
 
@@ -26,8 +30,6 @@ const upload = multer({ storage: storage });
 // Serve static content
 app.use(express.static('public'));
 
-
-
 // Function to create Dockerfile
 
 async function createDockerfile(uploadDir) {
@@ -39,21 +41,46 @@ async function createDockerfile(uploadDir) {
     await fs.writeFile(path.join(uploadDir, 'Dockerfile'), dockerfileContent);
 }
 
-// Function to build Docker image
+// Generating unique tag/timestamp
+function generateImageTag() {
+    return `v${Date.now()}`;
+}
 
-async function buildDockerImage(uploadDir, imageName) {
+// Build and push Docker image to ACR
+async function buildAndPushImage(uploadDir) {
     try {
-        console.log("Creating docker image...");
+        const tag = generateImageTag();
+        const imageName = 'mailman';
+        const acrImageName = `${ACR_LOGIN_SERVER}/${imageName}:${tag}`;
 
-        // Execute docker build
-        await execPromise('docker build -t mailman:latest uploads/'); // Absolute path for now to get it working 
-        console.log("Docker image created successfully!");
-        return true;
+        console.log('Building Docker image...');
+        await execPromise(`docker build -t ${imageName}:${tag} ${uploadDir}`);
+        console.log(`${imageName}:${tag}`);
+        console.log(`${acrImageName}`);
+        console.log('Docker image built successfully!');
+
+        console.log('Creating ACR tag...');
+        await execPromise(`docker tag ${imageName}:${tag} ${acrImageName}`);
+        console.log('ACR tag created successfully!');
+
+        console.log('Pushing Docker image to ACR...');
+        await execPromise(`docker push ${acrImageName}`);
+        console.log('Push succesful!');
+
+        return {
+            success: true,
+            tag: tag,
+            acrImageName: acrImageName
+        };
     } catch (error) {
-        console.error("Error building Docker image");
-        return false;
+        console.error("Error building and pushing Docker image to ACR");
+        return {
+            success: false,
+            error: error.message
+        };
     }
 }
+
 
 // File upload route
 app.post('/upload', upload.single('htmlFile'), async (req, res) => {
@@ -62,11 +89,9 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
     }
     try {
         const uploadDir = "uploads";
-        const imageName = "mailman:latest" // Again, this needs to be changed later to make it unique
-
         await createDockerfile(uploadDir);
 
-        const buildSuccess = await buildDockerImage(uploadDir, imageName);
+        const buildSuccess = await buildAndPushImage(uploadDir);
 
         if (buildSuccess) {
             res.json({
@@ -90,5 +115,5 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
 
 const PORT = 8080;
 app.listen(PORT, () => {
-    console.log('Server successfully started on port ${PORT}');
+    console.log(`Server successfully started on port ${PORT}`); // Finally managed to get this working!
 });
