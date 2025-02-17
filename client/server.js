@@ -155,48 +155,49 @@ function createService(deploymentName) {
 }
 
 async function deployToKubernetes(imageName) {
-    try {
-        const tag = generateDeployTag();
-        const deploymentName = `mailman-${tag}`;
-
-        console.log(`Creating deploy ${deploymentName}`);
-
-        // create deploy
-        const deployManifest = createDeployment(imageName, deploymentName);
-        await k8sAppsApi.createNamespacedDeployment('default', deployManifest);
-
-        // create service
-        const serviceManifest = createService(deploymentName);
-        await k8sCoreApi.createNamespacedService('default', serviceManifest);   
-        
-        let externalIp = null;
-        for (let i = 0; i < 24; i++) {
-            const service = await k8sCoreApi.readNamespacedService(deploymentName, 'default');
-            if (service.body.status.loadBalancer.ingress) {
-                externalIp = service.body.status.loadBalancer.ingress[0].ip;
-                break;
+        try {
+            const tag = generateDeployTag();
+            const deploymentName = `mailman-${tag}`;
+    
+            console.log(`Creating deploy ${deploymentName}`);
+    
+            // create deploy
+            const deployManifest = createDeployment(imageName, deploymentName);
+            await k8sAppsApi.createNamespacedDeployment('default', deployManifest);
+    
+            // create service
+            const serviceManifest = createService(deploymentName);
+            await k8sCoreApi.createNamespacedService('default', serviceManifest);   
+            
+            let externalIP = null;
+            for (let i = 0; i < 24; i++) {
+                const service = await k8sCoreApi.readNamespacedService(deploymentName, 'default');
+                if (service.body.status.loadBalancer.ingress) {
+                    externalIP = service.body.status.loadBalancer.ingress[0].ip;
+                    console.log(`${externalIP}`);
+                    break;
+                }
+                await new Promise(resolve => setTimeout(resolve, 2400));
             }
-            await new Promise(resolve => setTimeout(resolve, 2400));
+    
+            if (!externalIP) {
+                throw new Error('External IP not found');
+            }
+    
+            return {
+                success: true,
+                deploymentName: deploymentName,
+                serviceIP: externalIP
+            };
+        } catch (error) {
+            console.error(`K8s deployment error:`, error);
+            return {
+                success: false,
+                error: error.message
+            };
         }
-
-        if (!externalIp) {
-            throw new Error('External IP not found');
-        }
-
-        return {
-            success: true,
-            deploymentName: deploymentName,
-            serviceIP: externalIp
-        };
-    } catch (error) {
-        console.error(`K8s deployment error:`, error);
-        return {
-            success: false,
-            error: error.message
-        };
     }
 }
-
 // File upload route
 app.post('/upload', upload.single('htmlFile'), async (req, res) => {
     if (!req.file) {
