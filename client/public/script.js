@@ -21,7 +21,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            statusDiv.textContent = 'File uploaded successfully!';
+            statusDiv.textContent = `File uploaded successfully! Here is your website IP: ${result.deployment.accessUrl}`;
             statusDiv.className = 'success';
         } else {
             statusDiv.textContent = 'Upload failed. Please try again.';
