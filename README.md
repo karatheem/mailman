@@ -37,7 +37,7 @@ At the same time, support is as-is via GitHub issues.
 
 Given the lightweight nature of the application, there's not a great deal of processing power required.
 
-Housing a total of 10 Dynamic IPs for the user websites, the total pricing comes in at €182.85/month, calculated using the [Azure Pricing Calculato](https://azure.microsoft.com/en-us/pricing/calculator).
+Housing a total of 10 Dynamic IPs for the user websites, the total pricing comes in at €182.85/month, calculated using the [Azure Pricing Calculator](https://azure.microsoft.com/en-us/pricing/calculator).
 
 Here are the exact specs:
 
