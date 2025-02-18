@@ -32,3 +32,15 @@ Proof of concept:
 
 This application and deployment are provided free of charge for both client and server sides.
 At the same time, support is as-is via GitHub issues.
+
+### Pricing
+
+Given the lightweight nature of the application, there's not a great deal of processing power required.
+Housing a total of 10 Dynamic IPs for the user websites, the total pricing comes in at €182.85/month, calculated using the [Azure Pricing Calculato](https://azure.microsoft.com/en-us/pricing/calculator).
+
+Here are the exact specs:
+
+- 1 A2 VM with 2 Cores, 3.5 GB RAM and 60GB of temp storage deployed on the UK South region using Ubuntu as the OS totaling in at €54.64/month
+- 1 Azure Container Registry (ACR) totaling in at €19.19/month
+- 1 Azure Kubernetes Cluster (AKS) on the base D2 v3 version with 2vCPUs, 8GB RAM and 50GB of temorary storage totaling in at €81.27/month
+- 10 Dynamic IP addresses and 1 Static IP address totaling in at €27.74/month
