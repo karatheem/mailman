@@ -28,11 +28,6 @@ Proof of concept:
 - Next,the VM applies the application *.yaml files to the Azure Kubernetes Services (AKS) cluster, which in turn runs the application and makes it publicly available.
 - Lastly, the VM interogates the AKS cluster for the LoadBalancer service external IP address and prints it on the client-facing application before ending the session.
 
-### Service-Level Agreement
-
-This application and deployment are provided free of charge for both client and server sides.
-At the same time, support is as-is via GitHub issues.
-
 ### Pricing
 
 Given the lightweight nature of the application, there's not a great deal of processing power required.
@@ -45,3 +40,8 @@ Here are the exact specs:
 - 1 Azure Container Registry (ACR) totaling in at €19.19/month
 - 1 Azure Kubernetes Cluster (AKS) on the base D2 v3 version with 2vCPUs, 8GB RAM and 50GB of temorary storage totaling in at €81.27/month
 - 10 Dynamic IP addresses and 1 Static IP address totaling in at €27.74/month
+
+### Service-Level Agreement
+
+This application and deployment are provided free of charge for both client and server sides.
+At the same time, support is as-is via GitHub issues.
