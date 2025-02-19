@@ -36,10 +36,10 @@ Housing a total of 10 Dynamic IPs for the user websites, the total pricing comes
 
 Here are the exact specs:
 
-- 1 A2 VM with 2 Cores, 3.5 GB RAM and 60GB of temp storage deployed on the UK South region using Ubuntu as the OS totaling in at €54.64/month
-- 1 Azure Container Registry (ACR) totaling in at €19.19/month
-- 1 Azure Kubernetes Cluster (AKS) on the base D2 v3 version with 2vCPUs, 8GB RAM and 50GB of temorary storage totaling in at €81.27/month
-- 10 Dynamic IP addresses and 1 Static IP address totaling in at €27.74/month
+- 1x A2 VM with 2 Cores, 3.5 GB RAM and 60GB of temp storage deployed on the UK South region using Ubuntu as the OS totaling in at €54.64/month
+- 1x Azure Container Registry (ACR) totaling in at €19.19/month
+- 1x Azure Kubernetes Cluster (AKS) on the base D2 v3 version with 2vCPUs, 8GB RAM and 50GB of temorary storage totaling in at €81.27/month
+- An average of 10x Dynamic IP addresses and 1 Static IP address totaling in at €27.74/month
 
 ### Service-Level Agreement
 
