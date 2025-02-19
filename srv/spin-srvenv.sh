@@ -51,25 +51,6 @@ az acr create -n $acr -g $rg --sku Standard
 # Add a basic image to the repository for testing
 # az acr import -n $acr --source docker.io/library/hello-world:latest -t $acrpath:test1
 
-#########A################################################################################################## -> Managed ID
-
-rg="mailman"
-location="uksouth"
-suffix=$((10000 + RANDOM % 99999))
-managed_id="acr-managed-id-$suffix"
-
-# Create a managed identity for the ACR
-az identity create --name $managed_id --resource-group $RG --location $location
-
-# Get the Resource ID, Principal ID and ACR ID
-resource_id=$(az identity show --name $managed_id --resource-group $RG --query id --output tsv)
-principal_id=$(az identity show --name $managed_id --resource-group $RG --query principalId -output tsv)
-acr_id=$(az acr show --name $acr --resource-group $RG --query id --output tsv)
-
-# Create rolebind
-
-az role assignment create --assignee $principal_id --role AcrPull --scope $acr_id
-
 #########A################################################################################################## -> AKS
 
 echo "The AKS cluster: "
