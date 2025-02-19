@@ -28,23 +28,6 @@ subnetIdvm=$(az network vnet subnet show --resource-group $RG --vnet-name mailne
 echo ""
 sleep 2
 
-#########A################################################################################################## -> AKS
-
-echo "The AKS cluster: "
-az aks create --resource-group $RG --name $AKS --node-count 1 --network-plugin azure --vnet-subnet-id $subnetId --enable-aad --generate-ssh-keys
-sleep 5
-
-echo ""
-sleep 1
-#echo "Configuring kubectl to connect to the Kubernetes cluster"
-# echo "If you want to connect to the cluster to run commands, run the following:"
-# az aks get-credentials --resource-group $RG --name $AKS --admin --overwrite-existing
-#az aks get-credentials --resource-group $RG --name $AKS --admin --overwrite-existing
-#echo "You should be able to run kubectl commands to your cluster now"
-#echo ""
-#echo "Install kubectl locally, if needed: az aks install-cli"
-#echo ""
-
 #########A################################################################################################## -> ACR
 
 echo "Creating an Azure Container Registry (ACR)"
@@ -67,6 +50,42 @@ az acr create -n $acr -g $rg --sku Standard
 
 # Add a basic image to the repository for testing
 # az acr import -n $acr --source docker.io/library/hello-world:latest -t $acrpath:test1
+
+#########A################################################################################################## -> Managed ID
+
+rg="mailman"
+location="uksouth"
+suffix=$((10000 + RANDOM % 99999))
+managed_id="acr-managed-id-$suffix"
+
+# Create a managed identity for the ACR
+az identity create --name $managed_id --resource-group $RG --location $location
+
+# Get the Resource ID, Principal ID and ACR ID
+resource_id=$(az identity show --name $managed_id --resource-group $RG --query id --output tsv)
+principal_id=$(az identity show --name $managed_id --resource-group $RG --query principalId -output tsv)
+acr_id=$(az acr show --name $acr --resource-group $RG --query id --output tsv)
+
+# Create rolebind
+
+az role assignment create --assignee $principal_id --role AcrPull --scope $acr_id
+
+#########A################################################################################################## -> AKS
+
+echo "The AKS cluster: "
+az aks create --resource-group $RG --name $AKS --node-count 1 --network-plugin azure --vnet-subnet-id $subnetId --enable-aad --generate-ssh-keys
+sleep 5
+
+echo ""
+sleep 1
+#echo "Configuring kubectl to connect to the Kubernetes cluster"
+# echo "If you want to connect to the cluster to run commands, run the following:"
+# az aks get-credentials --resource-group $RG --name $AKS --admin --overwrite-existing
+#az aks get-credentials --resource-group $RG --name $AKS --admin --overwrite-existing
+#echo "You should be able to run kubectl commands to your cluster now"
+#echo ""
+#echo "Install kubectl locally, if needed: az aks install-cli"
+#echo ""
 
 #########A################################################################################################## -> VM
 
