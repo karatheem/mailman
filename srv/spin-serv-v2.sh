@@ -58,7 +58,7 @@ az identity create --name $managed_id --resource-group $RG --location $location
 # Get the Resource ID, Principal ID and ACR ID
 resource_id=$(az identity show --name $managed_id --resource-group $RG --query id --output tsv)
 principal_id=$(az identity show --name $managed_id --resource-group $RG --query principalId -o tsv)
-acr_id=$(az acr show --name publicacr29843 --resource-group $RG --query id --output tsv)
+acr_id=$(az acr show --name $acr --resource-group $RG --query id --output tsv)
 
 # Create rolebind
 
