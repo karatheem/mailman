@@ -72,8 +72,10 @@ az role assignment create --assignee $principal_id --role AcrPull --scope $acr_i
 AKS="aks-azurecni-$suffix" # Name of the AKS cluster
 
 echo "The AKS cluster: "
-az aks create --resource-group $RG --name $AKS --node-count 1 --network-plugin azure --vnet-subnet-id $subnetId --enable-aad --generate-ssh-keys --assign-identity $resource_id
+az aks create --resource-group $RG --name $AKS --node-count 1 --network-plugin azure --vnet-subnet-id $subnetId --enable-aad --generate-ssh-keys --assign-identity $resource_id --attach-acr $acr
 sleep 5
+
+
 
 echo ""
 sleep 1
