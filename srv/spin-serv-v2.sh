@@ -55,6 +55,9 @@ managed_id="acr-managed-id-$suffix"
 # Create a managed identity for the ACR
 az identity create --name $managed_id --resource-group $RG --location $location
 
+echo "Wait for managed ID propagation" 
+sleep 10
+
 # Get the Resource ID, Principal ID and ACR ID
 resource_id=$(az identity show --name $managed_id --resource-group $RG --query id --output tsv)
 principal_id=$(az identity show --name $managed_id --resource-group $RG --query principalId -o tsv)
