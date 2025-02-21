@@ -134,6 +134,7 @@ sleep 10
 aks_id=$(az aks show -g $RG -n $AKS --query id -o tsv)
 az role assignment create --assignee $vm_principal_id --role "Azure Kubernetes Service Cluster Admin Role" --scope $aks_id
 
+
 # This is the public IP address
 # $vmip=$(az vm list-ip-addresses -g $rg -n $vmName --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
 vmip=$(az vm list-ip-addresses -g $RG -n $VM --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
