@@ -7,14 +7,18 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as k8s from '@kubernetes/client-node';
 import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const execPromise = promisify(exec);
 
+// Load environment variables set up in VM creation script
+const config = JSON.parse(readFileSync('/home/postman/app/config/azure-config.json', 'utf8'));
+
 // ACR login server
-const ACR_LOGIN = process.env.ACR_LOGIN || 'publicacr38330'; //Using static ACR name for now
+const ACR_LOGIN = process.env.ACR_LOGIN || config.acrName;
 const ACR_LOGIN_SERVER = `${ACR_LOGIN}.azurecr.io`;
 
 // K8s config
@@ -53,6 +57,20 @@ async function createDockerfile(uploadDir) {
     await fs.writeFile(path.join(uploadDir, 'Dockerfile'), dockerfileContent);
 }
 
+// Function to authenticate on the ACR
+
+async function setupAzureAuth() {
+    try {
+        await execPromise(`az login --identity`);
+        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --overwite-existing`);
+        await execPromise(`az acr login --name ${config.acrName}`);
+        console.log('Azure authentication succesful!');
+    } catch (error) {
+        console.error('Azure authentication failed:', error);
+        throw error;
+    }
+}
+        
 // Generating unique tag/timestamp
 
 function generateImageTag() {
@@ -248,7 +266,13 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
 
 // Server initialization
 
-const PORT = 8080;
-app.listen(PORT, () => {
+try {
+    await setupAzureAuth();
+    app.listen(PORT, () => {
     console.log(`Server successfully started on port ${PORT}`);
-});
+    });
+} catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+}
+
