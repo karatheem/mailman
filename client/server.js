@@ -62,7 +62,7 @@ async function createDockerfile(uploadDir) {
 async function setupAzureAuth() {
     try {
         await execPromise(`az login --identity`);
-        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --overwite-existing`);
+        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --overwrite-existing`);
         await execPromise(`az acr login --name ${config.acrName}`);
         console.log('Azure authentication succesful!');
     } catch (error) {
@@ -268,6 +268,7 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
 
 try {
     await setupAzureAuth();
+    const PORT = 8080;
     app.listen(PORT, () => {
     console.log(`Server successfully started on port ${PORT}`);
     });
