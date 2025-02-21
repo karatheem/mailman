@@ -122,9 +122,13 @@ sleep 2
 # Add system-assigned managed ID to the VM
 az vm identity assign -g $RG -n $VM
 
+sleep 10
+
 # Get the VM principal ID and assign the ACR Push role for image upload
 vm_principal_id=$(az vm identity show -g $RG -n $VM --query principalId -o tsv)
 az role assignment create --assignee $vm_principal_id --role AcrPush --scope $acr_id
+
+sleep 10
 
 # Get AKS ID and assign it Azure Kubernetes Service Cluster Admin Role
 aks_id=$(az aks show -g $RG -n $AKS --query id -o tsv)
