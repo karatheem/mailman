@@ -23,9 +23,8 @@ const ACR_LOGIN_SERVER = `${ACR_LOGIN}.azurecr.io`;
 
 // K8s config
 const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
-const k8sAppsApi = kc.makeApiClient(k8s.AppsV1Api);
-const k8sCoreApi = kc.makeApiClient(k8s.CoreV1Api);
+let k8sAppsApi;
+let k8sCoreApi;
 
 // Create express app
 const app = express();
@@ -62,9 +61,20 @@ async function createDockerfile(uploadDir) {
 async function setupAzureAuth() {
     try {
         await execPromise(`az login --identity`);
-        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --overwrite-existing`);
+        // Get credentials using default location (~/.kube/config)
+        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --admin --overwrite-existing`);
+        
+        // Convert the credentials to use managed identity
+        await execPromise(`kubelogin convert-kubeconfig -l msi`);
+        
         await execPromise(`az acr login --name ${config.acrName}`);
-        console.log('Azure authentication succesful!');
+        
+        // Load default config
+        kc.loadFromDefault();
+        k8sAppsApi = kc.makeApiClient(k8s.AppsV1Api);
+        k8sCoreApi = kc.makeApiClient(k8s.CoreV1Api);
+        
+        console.log('Azure authentication successful!');
     } catch (error) {
         console.error('Azure authentication failed:', error);
         throw error;
