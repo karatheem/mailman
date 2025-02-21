@@ -148,7 +148,7 @@ echo ""
 sleep 1
 
 # Run the docker install script commands inside the VM
-az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "export acr=$acr; export AKS=$AKS; export RG=$RG; sudo wget -O - https://raw.githubusercontent.com/karatheem/mailman/refs/heads/progress/srv/spin-vm-guest.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
+az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "export acr=$acr; export AKS=$AKS; export RG=$RG; sudo wget -O - https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/srv/spin-vm-guest.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
 
 # Look for user input to perform ssh connection right now
 read -p "Do you want to connect to ${VM} via ssh now? (y/n) " userinput
