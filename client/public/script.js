@@ -21,6 +21,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
+            const result = await response.json();
             statusDiv.textContent = `File uploaded successfully! Here is your website IP: ${result.deployment.accessUrl}`;
             statusDiv.className = 'success';
         } else {
