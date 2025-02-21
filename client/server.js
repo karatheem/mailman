@@ -7,21 +7,24 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as k8s from '@kubernetes/client-node';
 import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const execPromise = promisify(exec);
 
+// Load environment variables set up in VM creation script
+const config = JSON.parse(readFileSync('config/azure-config.json', 'utf8'));
+
 // ACR login server
-const ACR_LOGIN = process.env.ACR_LOGIN || 'publicacr38330'; //Using static ACR name for now
+const ACR_LOGIN = process.env.ACR_LOGIN || config.acrName;
 const ACR_LOGIN_SERVER = `${ACR_LOGIN}.azurecr.io`;
 
 // K8s config
 const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
-const k8sAppsApi = kc.makeApiClient(k8s.AppsV1Api);
-const k8sCoreApi = kc.makeApiClient(k8s.CoreV1Api);
+let k8sAppsApi;
+let k8sCoreApi;
 
 // Create express app
 const app = express();
@@ -53,6 +56,31 @@ async function createDockerfile(uploadDir) {
     await fs.writeFile(path.join(uploadDir, 'Dockerfile'), dockerfileContent);
 }
 
+// Function to authenticate on the ACR
+
+async function setupAzureAuth() {
+    try {
+        await execPromise(`az login --identity`);
+        // Get credentials using default location (~/.kube/config)
+        await execPromise(`az aks get-credentials --resource-group ${config.resourceGroup} --name ${config.aksName} --admin --overwrite-existing`);
+        
+        // Convert the credentials to use managed identity
+        await execPromise(`kubelogin convert-kubeconfig -l msi`);
+        
+        await execPromise(`az acr login --name ${config.acrName}`);
+        
+        // Load default config
+        kc.loadFromDefault();
+        k8sAppsApi = kc.makeApiClient(k8s.AppsV1Api);
+        k8sCoreApi = kc.makeApiClient(k8s.CoreV1Api);
+        
+        console.log('Azure authentication successful!');
+    } catch (error) {
+        console.error('Azure authentication failed:', error);
+        throw error;
+    }
+}
+        
 // Generating unique tag/timestamp
 
 function generateImageTag() {
@@ -248,7 +276,18 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
 
 // Server initialization
 
-const PORT = 8080;
-app.listen(PORT, () => {
-    console.log(`Server successfully started on port ${PORT}`);
-});
+async function startServer() {
+    try {
+        await setupAzureAuth();
+        const PORT = 8080;
+        app.listen(PORT, () => {
+            console.log(`Server successfully started on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
+}
+
+startServer();
+

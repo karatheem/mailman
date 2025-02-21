@@ -118,6 +118,23 @@ az vm create -n $VM -g $RG --image $image --generate-ssh-keys --admin-username $
 az network nsg rule create -g $RG --nsg-name $NSG -n Allow8080 --priority 4096 --destination-port-ranges 8080 --access Allow --protocol Tcp --description "Allow 8080."
 
 sleep 2
+
+# Add system-assigned managed ID to the VM
+az vm identity assign -g $RG -n $VM
+
+sleep 10
+
+# Get the VM principal ID and assign the ACR Push role for image upload
+vm_principal_id=$(az vm identity show -g $RG -n $VM --query principalId -o tsv)
+az role assignment create --assignee $vm_principal_id --role AcrPush --scope $acr_id
+
+sleep 10
+
+# Get AKS ID and assign it Azure Kubernetes Service Cluster Admin Role
+aks_id=$(az aks show -g $RG -n $AKS --query id -o tsv)
+az role assignment create --assignee $vm_principal_id --role "Azure Kubernetes Service Cluster Admin Role" --scope $aks_id
+
+
 # This is the public IP address
 # $vmip=$(az vm list-ip-addresses -g $rg -n $vmName --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
 vmip=$(az vm list-ip-addresses -g $RG -n $VM --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
@@ -131,7 +148,7 @@ echo ""
 sleep 1
 
 # Run the docker install script commands inside the VM
-az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "sudo wget -O - https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/srv/spin-vm-guest.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
+az vm run-command create --resource-group $RG --async-execution false --run-as-user $userName --script "export acr=$acr; export AKS=$AKS; export RG=$RG; sudo wget -O - https://raw.githubusercontent.com/karatheem/mailman/refs/heads/progress/srv/spin-vm-guest.sh | bash" --timeout-in-seconds 3600 --run-command-name "SetDockerUp" --vm-name $VM
 
 # Look for user input to perform ssh connection right now
 read -p "Do you want to connect to ${VM} via ssh now? (y/n) " userinput

@@ -2,7 +2,7 @@
 
 # Add Docker's official GPG key:
 sudo apt-get update 
-sudo apt-get install -y ca-certificates curl apt-transport-https gnupg git
+sudo apt-get install -y ca-certificates curl apt-transport-https gnupg git unzip
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -40,11 +40,21 @@ HOME_DIR="/home/$USER"
 
 mkdir -p $HOME_DIR/mailman/public
 mkdir -p $HOME_DIR/mailman/uploads
+mkdir -p $HOME_DIR/mailman/config
 curl -o $HOME_DIR/mailman/package.json https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/package.json
-curl -o $HOME_DIR/mailman/server.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/server.js
+curl -o $HOME_DIR/mailman/server.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/progress/client/server.js
 curl -o $HOME_DIR/mailman/public/index.html https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/index.html
 curl -o $HOME_DIR/mailman/public/script.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/script.js
 sudo curl -o /etc/systemd/system/mailman.service https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/mailman.service
+
+# Importing environment variables from ACR and AKS
+cat > $HOME_DIR/mailman/config/azure-config.json << EOF
+{
+  "acrName": "$acr",
+  "aksName": "$AKS",
+  "resourceGroup": "$RG"
+}
+EOF
 
 #Commenting everything out from here on out since the repo folder doesn't show up anymore
 cd "$HOME_DIR/mailman/"
@@ -65,3 +75,10 @@ sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
 # Run install commands
 sudo apt-get update
 sudo apt-get install -y kubectl="1.30.9-1.1"
+
+cd "/tmp"
+VERSION="v0.1.7"  # Use the latest stable version
+wget https://github.com/Azure/kubelogin/releases/download/${VERSION}/kubelogin-linux-amd64.zip
+unzip kubelogin-linux-amd64.zip
+sudo mv bin/linux_amd64/kubelogin /usr/local/bin/
+rm -rf bin/ kubelogin-linux-amd64.zip
