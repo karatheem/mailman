@@ -2,7 +2,7 @@
 
 # Add Docker's official GPG key:
 sudo apt-get update 
-sudo apt-get install -y ca-certificates curl apt-transport-https gnupg git
+sudo apt-get install -y ca-certificates curl apt-transport-https gnupg git unzip
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -75,3 +75,10 @@ sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
 # Run install commands
 sudo apt-get update
 sudo apt-get install -y kubectl="1.30.9-1.1"
+
+cd "/tmp"
+VERSION="v0.1.7"  # Use the latest stable version
+wget https://github.com/Azure/kubelogin/releases/download/${VERSION}/kubelogin-linux-amd64.zip
+unzip kubelogin-linux-amd64.zip
+sudo mv bin/linux_amd64/kubelogin /usr/local/bin/
+rm -rf bin/ kubelogin-linux-amd64.zip
