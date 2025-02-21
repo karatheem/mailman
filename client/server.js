@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const execPromise = promisify(exec);
 
 // Load environment variables set up in VM creation script
-const config = JSON.parse(readFileSync('/home/postman/app/config/azure-config.json', 'utf8'));
+const config = JSON.parse(readFileSync('config/azure-config.json', 'utf8'));
 
 // ACR login server
 const ACR_LOGIN = process.env.ACR_LOGIN || config.acrName;
@@ -266,14 +266,18 @@ app.post('/upload', upload.single('htmlFile'), async (req, res) => {
 
 // Server initialization
 
-try {
-    await setupAzureAuth();
-    const PORT = 8080;
-    app.listen(PORT, () => {
-    console.log(`Server successfully started on port ${PORT}`);
-    });
-} catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+async function startServer() {
+    try {
+        await setupAzureAuth();
+        const PORT = 8080;
+        app.listen(PORT, () => {
+            console.log(`Server successfully started on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
 }
+
+startServer();
 
