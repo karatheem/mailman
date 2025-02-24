@@ -1,0 +1,182 @@
+:root {
+            --primary: #2B65EC;
+            --secondary: #8BB4F7;
+            --accent: #FFD700;
+            --background: #F0F8FF;
+            --text: #2C3E50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .upload-section {
+            border: 2px dashed var(--secondary);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: var(--primary);
+            background-color: rgba(139, 180, 247, 0.1);
+        }
+
+        .upload-section.dragging {
+            background-color: rgba(139, 180, 247, 0.2);
+            border-color: var(--primary);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #1854d9;
+        }
+
+        .upload-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.1) 25%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 75%
+            );
+            animation: shimmer 1.5s infinite;
+            transform: skewX(-45deg);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-45deg); }
+            100% { transform: translateX(100%) skewX(-45deg); }
+        }
+
+        .status-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .result-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .result-section p {
+            margin: 0.5rem 0;
+        }
+
+        .result-section a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .result-section a:hover {
+            text-decoration: underline;
+        }
+
+        .envelope-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-animation {
+            animation: bounce 1s ease infinite;
+        }
