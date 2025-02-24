@@ -6,15 +6,32 @@
     <title>Mailman</title>
 </head>
 <body>
-    <div>
-        <h2>Please select your HTML file</h2>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <div>
-                <input type="file" id="htmlFile" name="htmlFile" accept=".html" required>
+    <div class="container">
+        <div class="header">
+            <div class="envelope-icon">✉️</div>
+            <h1>Mail Deployment System</h1>
+            <p>Upload your HTML file to deploy it instantly</p>
+        </div>
+
+        <div class="upload-section" id="dropZone">
+            <input type="file" id="fileInput" class="file-input" accept=".html">
+            <p>Drag and drop your HTML file here</p>
+            <p>or</p>
+            <button class="upload-btn" id="uploadBtn">Choose File</button>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
-            <button type="submit">Upload</button>
-        </form>
-        <div id="status"></div>
+            <p class="status-message" id="statusMessage">Preparing upload...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <h3>Deployment Successful! 🎉</h3>
+            <p>Your page has been deployed and is now accessible at:</p>
+            <p><a href="#" id="deploymentUrl" target="_blank"></a></p>
+        </div>
     </div>
     <script type="text/javascript" src="script.js"></script>
 </body>
