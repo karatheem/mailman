@@ -53,14 +53,14 @@ function showProgress() {
 
 function simulateProgress(duration, steps, callback) {
     let progress = 0;
-    const increment = 100 / steps;
+    const increment = 125 / steps;
     const stepDuration = duration / steps;
 
     const interval = setInterval(() => {
         progress += increment;
-        if (progress >= 100) {
+        if (progress >= 125) {
             clearInterval(interval);
-            progress = 100;
+            progress = 125;
             if (callback) callback();
         }
         updateProgress(progress, getProgressMessage(progress));
@@ -84,7 +84,7 @@ async function uploadFile(file) {
 
     try {
         // Start progress animation
-        simulateProgress(10000, 50);
+        simulateProgress(8000, 50);
 
         const response = await fetch('/upload', {
             method: 'POST',
