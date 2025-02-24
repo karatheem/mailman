@@ -44,6 +44,7 @@ mkdir -p $HOME_DIR/mailman/config
 curl -o $HOME_DIR/mailman/package.json https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/package.json
 curl -o $HOME_DIR/mailman/server.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/progress/client/server.js
 curl -o $HOME_DIR/mailman/public/index.html https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/index.html
+curl -o $HOME_DIR/mailman/public/style.css https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/style.css
 curl -o $HOME_DIR/mailman/public/script.js https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/public/script.js
 sudo curl -o /etc/systemd/system/mailman.service https://raw.githubusercontent.com/karatheem/mailman/refs/heads/main/client/mailman.service
 
