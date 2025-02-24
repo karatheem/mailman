@@ -84,7 +84,7 @@ async function uploadFile(file) {
 
     try {
         // Start progress animation
-        simulateProgress(8000, 50);
+        simulateProgress(10000, 50);
 
         const response = await fetch('/upload', {
             method: 'POST',
