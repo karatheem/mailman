@@ -68,8 +68,8 @@ function simulateProgress(duration, steps, callback) {
 }
 
 function getProgressMessage(progress) {
-    if (progress < 25) return "Preparing deployment...";
-    if (progress < 50) return "Building container...";
+    if (progress < 20) return "Preparing deployment...";
+    if (progress < 45) return "Building container...";
     if (progress < 75) return "Pushing to registry...";
     if (progress < 90) return "Deploying to Kubernetes...";
     return "Finalizing deployment...";
@@ -84,7 +84,7 @@ async function uploadFile(file) {
 
     try {
         // Start progress animation
-        simulateProgress(8000, 50);
+        simulateProgress(21000, 300);
 
         const response = await fetch('/upload', {
             method: 'POST',
