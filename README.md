@@ -2,6 +2,10 @@
 
 **Mailman** is a web application to which you can POST your code and receive a public IP address where it is already running.
 
+### How to deploy
+
+Simply run the spin-svenv.sh script from the /srv folder and everything will automatically be deployed and installed.
+
 ### Run as client
 
 All you have to worry about is your `index.html` file with your website. In the `mailman` app you submit your `index.html` file, and we take care of the rest. In a couple of minutes, the backend will be ready and you will receive a public IP address from which your website will be accessible. You app will be live at the designated IP address for a predefined default period of 48hrs.
